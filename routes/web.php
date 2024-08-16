@@ -44,7 +44,12 @@ Route::group(['prefix' => 'user', 'middleware' => ['user_auth']], function () {
     Route::get('dashboard', [UserDashboardController::class, 'index']);
 
     /*-------------- Enties routes -------------*/
-    Route::get('entries/index',[UserEntryController::class,'index']);
-    Route::get('entries/create',[UserEntryController::class,'create']);
-    Route::post('entries/store',[UserEntryController::class,'store']);
+    Route::get('entries/index',         [UserEntryController::class,'index']);
+    Route::get('entries/create',        [UserEntryController::class,'create']);
+    Route::post('entries/store',        [UserEntryController::class,'store']);
+    Route::get('entry/details/{id}',    [UserEntryController::class,'show']);
+    Route::get('entry/pdfs/{id}',       [UserEntryController::class,'pdfs']);
+    Route::get('entry/edit/{id}',       [UserEntryController::class,'edit']);
+    Route::post('entry/update',         [UserEntryController::class,'update']);
+    Route::get('entry/delete/{id}',     [UserEntryController::class,'delete']);
 });
