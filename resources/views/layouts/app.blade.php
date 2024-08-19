@@ -105,6 +105,24 @@
                                         aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span
                                             class="badge badge-success">6</span></a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link  @if ($active == 'Entries') active @endif"
+                                        href="#" data-toggle="collapse" aria-expanded="false"
+                                        data-target="#submenu-2" aria-controls="submenu-2"><i
+                                            class="fa fa-fw fa-rocket"></i>Entries</a>
+                                    <div id="submenu-2" class="collapse submenu" style="">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ url('admin/entries/create') }}">Add
+                                                    Entry
+                                                    <span class="badge badge-secondary"></span></a>
+                                                <a class="nav-link" href="{{ url('admin/entries/index') }}">View
+                                                    All<span class="badge badge-secondary"></span></a>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </li>
                                 {{-- <li class="nav-item">
                                     <a class="nav-link  @if ($active == 'Business') active @endif" href="#"
                                         data-toggle="collapse" aria-expanded="false" data-target="#submenu-2"

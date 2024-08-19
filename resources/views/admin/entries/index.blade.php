@@ -1,9 +1,16 @@
 @extends('layouts.app')
 @section('content')
+
+@include('components.loading')
+    <div class="mb-3">
+        <a class="btn btn-warning float-end" href="{{ url('admin/entries/export') }}" id="export_button">Export Entires Data</a>
+
+    </div>
+
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">Users Table</h5>
+                <h5 class="card-header">Entries Table</h5>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered ">
@@ -21,7 +28,7 @@
                                     <th>Details</th>
                                     <th>Manage PDFs</th>
                                     <th>Edit</th>
-
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,14 +43,17 @@
                                         <td>{{ $entry->case_file_no }}</td>
                                         <td>{{ $entry->diagram_no }}</td>
                                         <td>{{ $entry->diagram_status }}</td>
-                                        <td><a href="{{ url('user/entry/details', $entry->id) }}"><button
+                                        <td><a href="{{ url('admin/entry/details', $entry->id) }}"><button
                                                     class="btn btn-primary">Details</button></a>
-                                        <td><a href="{{ url('user/entry/pdfs', $entry->id) }}"><button
+                                        <td><a href="{{ url('admin/entry/pdfs', $entry->id) }}"><button
                                                     class="btn btn-primary">Manage</button></a>
-                                        <td><a href="{{ url('user/entry/edit', $entry->id) }}"><button
+                                        <td><a href="{{ url('admin/entry/edit', $entry->id) }}"><button
                                                     class="btn btn-primary">Edit</button></a>
                                         </td>
-                                       
+                                        <td>
+                                            <a class="delete-entry" entry-id={{ $entry->id }}><button
+                                                    class="btn btn-danger">Delete</button></a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -62,6 +72,7 @@
     <script>
         $(document).ready(function() {
 
+
             $('body').on('click', '.delete-entry', function(e) {
                 e.preventDefault();
                 var id = $(this).attr('entry-id');
@@ -76,7 +87,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         localStorage.clear();
-                        window.location.href = "{{ url('user/entry/delete') }}/" + id;
+                        window.location.href = "{{ url('admin/entry/delete') }}/" + id;
                     }
                 });
             });

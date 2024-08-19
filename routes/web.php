@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminEntryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\User\UserEntryController;
@@ -36,6 +37,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin_auth']], function () 
     Route::post('user/update',          [AdminDashboardController::class, 'updateUser']);
     Route::post('user/password/update', [AdminDashboardController::class, 'updatePassword']);
     Route::get('user/delete/{id}',      [AdminDashboardController::class, 'deleteUser']);
+
+    /*-------------- Enties routes -------------*/
+    Route::get('entries/index',         [AdminEntryController::class,'index']);
+    Route::get('entries/create',        [AdminEntryController::class,'create']);
+    Route::post('entries/store',        [AdminEntryController::class,'store']);
+    Route::get('entry/details/{id}',    [AdminEntryController::class,'show']);
+    Route::get('entry/pdfs/{id}',       [AdminEntryController::class,'pdfs']);
+    Route::get('entry/edit/{id}',       [AdminEntryController::class,'edit']);
+    Route::post('entry/update',         [AdminEntryController::class,'update']);
+    Route::get('entry/delete/{id}',     [AdminEntryController::class,'delete']);
+    Route::get('entries/export',        [AdminEntryController::class,'export']);
 });
 
 /* ----------- User Routes ----------- */
