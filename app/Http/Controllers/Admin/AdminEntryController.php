@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Entry;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Helpers\FileHelper;
 
 class AdminEntryController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
@@ -30,7 +31,7 @@ class AdminEntryController extends Controller
         $data = [
             'title' => 'Entries',
             'active' => 'Entries',
-            'entries'=> $entries,
+            'entries' => $entries,
             'breadcrumbs' => array("admin/entries/index" => "Entries"),
         ];
         return view('admin.entries.index', $data);
@@ -54,8 +55,20 @@ class AdminEntryController extends Controller
      */
     public function store(Request $request)
     {
+
+        $data = $request->all();
+        if ($request->pdf_file) {
+            $file = FileHelper::save($request->pdf_file, '/acquisition_plans');
+            $data['upload_acquisition_plan'] = $file;
+        }
+        if ($request->acquisition_area_extend_type == 'm2') {
+            $data['acquisition_area_extend'] = $request->acquisition_area_extend / 10000;
+        }
+        if ($request->parent_area_extend_type == 'm2') {
+            $data['parent_property_area']  = $request->parent_property_area / 10000;
+        }
         try {
-            Entry::create($request->all());
+            Entry::create($data);
             return redirect()->back()->with('success', 'Entry Added Successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -69,12 +82,12 @@ class AdminEntryController extends Controller
     {
         $entry = Entry::find($id);
         $data = [
-            'entry'=> $entry,
+            'entry' => $entry,
             'title' => 'Entry Details',
             'active' => 'Entries',
-            'breadcrumbs' => array("admin/entries/index" => "Entries", "admin/entry/details/".$entry->id => "Entry Details",),
+            'breadcrumbs' => array("admin/entries/index" => "Entries", "admin/entry/details/" . $entry->id => "Entry Details",),
         ];
-        return view('admin.entries.show',$data);
+        return view('admin.entries.show', $data);
     }
 
     /**
@@ -84,12 +97,12 @@ class AdminEntryController extends Controller
     {
         $entry = Entry::find($id);
         $data = [
-            'entry'=> $entry,
+            'entry' => $entry,
             'title' => 'Update Entry',
             'active' => 'Entries',
-            'breadcrumbs' => array("admin/entries/index" => "Entries", "admin/entry/edit/".$entry->id => "Edit Entry",),
+            'breadcrumbs' => array("admin/entries/index" => "Entries", "admin/entry/edit/" . $entry->id => "Edit Entry",),
         ];
-        return view('admin.entries.edit',$data);
+        return view('admin.entries.edit', $data);
     }
 
     /**
@@ -97,12 +110,13 @@ class AdminEntryController extends Controller
      */
     public function update(Request $request)
     {
-        try{
+        try {
             $entry = Entry::find($request->id);
-            $entry->update($request->all());
-            return redirect('admin/entries/index')->with('success','Entry updated successfully');
-        }catch(\Exception $e){
-            return redirect()->back()->with('error',$e->getMessage());
+
+         $entry->update($request->all());
+            return redirect('admin/entries/index')->with('success', 'Entry updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -113,16 +127,27 @@ class AdminEntryController extends Controller
     {
         $entry = Entry::find($id);
         $entry->delete();
-        return redirect()->back()->with('success','Entry deleted successfully');
+        return redirect()->back()->with('success', 'Entry deleted successfully');
     }
 
-    public function pdfs($id){
+    public function pdfs($id)
+    {
+        $entry = Entry::find($id);
         $data = [
+            'entry' => $entry,
             'title' => 'Entry PDFs',
             'active' => 'Entries',
             'breadcrumbs' => array("admin/entries/index" => "Entries",),
         ];
-        return view('admin.entries.pdfs',$data);
+        return view('admin.entries.pdfs', $data);
+    }
+
+    public function updatePdf(Request $request)
+    {
+        $entry = Entry::find($request->id);
+        $file = FileHelper::save($request->upload_acquisition_plan, '/acquisition_plans');
+        $entry->update(['upload_acquisition_plan' => $file]);
+        return redirect()->back()->with('success', 'Acquisition Plan updated!');
     }
 
     public function export()

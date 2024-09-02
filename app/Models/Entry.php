@@ -18,7 +18,16 @@ class Entry extends Model
         'case_file_no',
         'diagram_no',
         'diagram_status',
+
+        'anticipated_date',
+        'approval_date',
+        'date_received_via_pims',
+
         'acquisition_status',
+
+        'acquisition_plan',
+        'acquisition_plan_number',
+
         'spatial_atlas_status',
         'date_of_approval',
         'received_diagram_instruction_via_pims',
@@ -28,12 +37,6 @@ class Entry extends Model
         'on_hold_reason',
         'relocation',
         'linked_to_diagram',
-        'owner_type_1',
-        'owner_1',
-        'owner_type_2',
-        'owner_2',
-        'owner_type_3',
-        'owner_3',
         'valuer',
         'negotiator',
         'contacted_the_owner',
@@ -56,6 +59,8 @@ class Entry extends Model
         'date_sent_memo_request',
         'date_memo_uploaded',
         'date_memo_submitted_to_sanral',
+
+        'property_type',
         'portion_number',
         'erf_number',
         'remainder',
@@ -67,11 +72,28 @@ class Entry extends Model
         'portion_of_portion',
         'farm_name',
         'farm_number',
+        'portion_number_agricultural',
         'agricultural_holding_name',
         'agricultural_holding_number',
+        'remainder_agricultural',
         'site_number',
         'community',
         'chief',
+        'erf_number_community',
         'registration_division',
+
+        'acquisition_area_extend',
+        'parent_property_area',
+
+        'spatial_atlas',
+
+        'owner_type',
+        'owner',
+        'pgpw',
+        'dpw',
+        'dalrrd',
+        'transnet',
+
+        'upload_acquisition_plan',
     ];
 }

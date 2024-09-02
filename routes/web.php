@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin_auth']], function () 
     Route::post('entries/store',        [AdminEntryController::class,'store']);
     Route::get('entry/details/{id}',    [AdminEntryController::class,'show']);
     Route::get('entry/pdfs/{id}',       [AdminEntryController::class,'pdfs']);
+    Route::post('entry/pdf/update',     [AdminEntryController::class,'updatePdf']);
     Route::get('entry/edit/{id}',       [AdminEntryController::class,'edit']);
     Route::post('entry/update',         [AdminEntryController::class,'update']);
     Route::get('entry/delete/{id}',     [AdminEntryController::class,'delete']);

@@ -36,7 +36,8 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $entry->project_lac_no }}</td>
-                                        <td>{{ $entry->project_description }}</td>
+                                        <td>{{ \Illuminate\Support\Str::limit($entry->project_description, 40, '...') }}</td>
+
                                         <td>{{ $entry->region }}</td>
                                         <td>{{ $entry->project_phase }}</td>
                                         <td>{{ $entry->proceed }}</td>
