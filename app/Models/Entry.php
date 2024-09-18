@@ -16,18 +16,11 @@ class Entry extends Model
         'project_phase',
         'proceed',
         'case_file_no',
-        'diagram_no',
         'diagram_status',
-
         'anticipated_date',
-        'approval_date',
-        'date_received_via_pims',
-
         'acquisition_status',
-
         'acquisition_plan',
         'acquisition_plan_number',
-
         'spatial_atlas_status',
         'date_of_approval',
         'received_diagram_instruction_via_pims',
@@ -59,7 +52,6 @@ class Entry extends Model
         'date_sent_memo_request',
         'date_memo_uploaded',
         'date_memo_submitted_to_sanral',
-
         'property_type',
         'portion_number',
         'erf_number',
@@ -81,19 +73,18 @@ class Entry extends Model
         'chief',
         'erf_number_community',
         'registration_division',
-
         'acquisition_area_extend',
         'parent_property_area',
-
         'spatial_atlas',
-
         'owner_type',
         'owner',
         'pgpw',
         'dpw',
         'dalrrd',
         'transnet',
-
-        'upload_acquisition_plan',
     ];
+
+    public function pdfs(){
+        return $this->hasOne(PdfFile::class,'entry_id');
+    }
 }

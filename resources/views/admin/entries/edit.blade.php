@@ -46,11 +46,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="diagram_no" class="col-form-label">Diagram No *</label>
                                 <input  id="diagram_no" type="text" class="form-control" name="diagram_no"
                                     value="{{ $entry->diagram_no ? $entry->diagram_no : 'N/A' }}" required>
-                            </div>
+                            </div> --}}
                             <div class="form-group col-md-6">
                                 <label for="diagram_status" class="col-form-label">Diagram Status *</label>
                                 <select id="diagram_status" class="form-control" name="diagram_status" required @if ($entry->diagram_status == 'Approved') disabled
@@ -60,6 +60,12 @@
                                     <option value="Approved" @if ($entry->diagram_status == 'Approved')  selected  @endif>Approved</option>
                                     <option value="Draft"  @if ($entry->diagram_status == 'Draft')  selected  @endif>Draft</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 form-group">
+
+                                <label for="approval_date" class="col-form-label">Acquisition plan number</label>
+                                <input id="approval_date" type="text" class="form-control" name=""
+                                    value="{{$entry->acquisition_plan_number}}" readonly>
                             </div>
                         </div>
 
@@ -80,7 +86,7 @@
                                 </div>
                             @else
                                 {{-- input fields for diagram status approved --}}
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="date_received_via_pims" class="col-form-label">Date Received via PIMS
                                         </label>
@@ -92,7 +98,7 @@
                                         <input  id="approval_date" type="date" class="form-control"
                                             name="approval_date" value="{{ $entry->approval_date }}">
                                     </div>
-                                </div>
+                                </div> --}}
                             @endif
                         </div>
 
@@ -123,14 +129,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12 form-group">
 
-                                <label for="approval_date" class="col-form-label">Acquisition plan number</label>
-                                <input id="approval_date" type="text" class="form-control" name=""
-                                    value="{{$entry->acquisition_plan}}-{{$entry->acquisition_plan_number}}" readonly>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="acquisition_status" class="col-form-label">Acquisition Status *</label>

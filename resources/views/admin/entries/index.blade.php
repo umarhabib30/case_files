@@ -23,7 +23,6 @@
                                     <th>Phase</th>
                                     <th>Proceed</th>
                                     <th>Case File No</th>
-                                    <th>Diagram No</th>
                                     <th>Diagram Status</th>
                                     <th>Details</th>
                                     <th>Manage PDFs</th>
@@ -42,7 +41,7 @@
                                         <td>{{ $entry->project_phase }}</td>
                                         <td>{{ $entry->proceed }}</td>
                                         <td>{{ $entry->case_file_no }}</td>
-                                        <td>{{ $entry->diagram_no }}</td>
+                                        
                                         <td>{{ $entry->diagram_status }}</td>
                                         <td><a href="{{ url('admin/entry/details', $entry->id) }}"><button
                                                     class="btn btn-primary">Details</button></a>

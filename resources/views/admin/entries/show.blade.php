@@ -42,15 +42,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="diagram_no" class="col-form-label">Diagram No *</label>
                             <input readonly id="diagram_no" type="text" class="form-control" name="diagram_no"
                                 value="{{ $entry->diagram_no ? $entry->diagram_no : 'N/A' }}" required>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label for="diagram_status" class="col-form-label">Diagram Status *</label>
                             <input readonly id="diagram_status" type="text" class="form-control" name="diagram_status"
                                 value="{{ $entry->diagram_status ? $entry->diagram_status : 'N/A' }}" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+
+                            <label for="approval_date" class="col-form-label">Acquisition plan number</label>
+                            <input id="approval_date" type="text" class="form-control" name="approval_date"
+                                value="{{$entry->acquisition_plan_number}}" readonly>
                         </div>
                     </div>
 
@@ -84,14 +90,6 @@
                         </div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-
-                            <label for="approval_date" class="col-form-label">Acquisition plan number</label>
-                            <input id="approval_date" type="text" class="form-control" name="approval_date"
-                                value="{{$entry->acquisition_plan}}-{{$entry->acquisition_plan_number}}" readonly>
-                        </div>
-                    </div>  
 
 
                     <div class="row">

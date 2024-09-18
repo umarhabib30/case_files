@@ -1,4 +1,11 @@
 @extends('layouts.app')
+@section('style')
+    <style>
+        .border-red {
+            border: 1px solid red !important;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -7,6 +14,7 @@
                 <div class="card-body">
                     <form method="post" action="{{ url('admin/entries/store') }}" enctype="multipart/form-data">
                         @csrf
+
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="project_lac_no" class="col-form-label">Project LAC No *</label>
@@ -33,9 +41,9 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label for="project_phase" class="col-form-label">Project Phase *</label>
+                                <label for="project_phase" class="col-form-label">Project Phase </label>
                                 <input id="project_phase" type="text" class="form-control" name="project_phase"
-                                    value="{{ old('project_phase') }}" required>
+                                    value="{{ old('project_phase') }}">
                                 {{-- <select id="project_phase" class="form-control" name="project_phase" required>
                                     <option value="" selected>Select an option</option>
                                     <option value="Phase 1">Phase 1</option>
@@ -69,11 +77,11 @@
 
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="diagram_no" class="col-form-label">Diagram No *</label>
                                 <input id="diagram_no" type="text" class="form-control" name="diagram_no"
                                     value="{{ old('diagram_no') }}" required>
-                            </div>
+                            </div> --}}
                             <div class="form-group col-md-6">
                                 <label for="diagram_status" class="col-form-label">Diagram Status *</label>
                                 {{-- <input id="" type="text" class="form-control" name="diagram_status" value="{{ old('diagram_status') }}" required> --}}
@@ -100,7 +108,7 @@
                         </div>
 
                         {{-- input fields for diagram status approved --}}
-                        <div class="row" style="display: none;" id="status_approved">
+                        {{-- <div class="row" style="display: none;" id="status_approved">
                             <div class="form-group col-md-6">
                                 <label for="date_received_via_pims" class="col-form-label">Date Received via PIMS </label>
                                 <input id="date_received_via_pims" type="date" class="form-control"
@@ -111,7 +119,7 @@
                                 <input id="approval_date" type="date" class="form-control" name="approval_date"
                                     value="{{ old('approval_date') }}">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -124,12 +132,12 @@
                                     <option value="DP-Plan">DP-Plan</option>
                                     <option value="G-Plan">G-Plan</option>
                                     <option value="S-Plan">S-Plan</option>
-                                    <option value="C - Notional Site">C - Notional Site</option>
-                                    <option value="C - Communal Compensation">C - Communal Compensation</option>
-                                    <option value="QO - Quitrent">QO - Quitrent</option>
-                                    <option value="DQP - Quitrent">DQP - Quitrent</option>
-                                    <option value="QG - Quitrent">QG - Quitrent</option>
-                                    <option value="Relocation Site - CRL">Relocation Site - CRL</option>
+                                    <option value="C- Notional Site">C - Notional Site</option>
+                                    <option value="C- Communal Compensation">C - Communal Compensation</option>
+                                    <option value="QO- Quitrent">QO - Quitrent</option>
+                                    <option value="DQP- Quitrent">DQP - Quitrent</option>
+                                    <option value="QG- Quitrent">QG - Quitrent</option>
+                                    <option value="Relocation Site- CRL">Relocation Site - CRL</option>
                                 </select>
 
                             </div>
@@ -681,37 +689,25 @@
                         <div class="row" id="dynamic_property_type_inputs"> </div>
 
                         <div class="row">
-                            <div class="form-group col-md-6">
+                            {{-- <div class="form-group col-md-6">
                                 <label for="" class="col-form-label">Acquisition Area Extent Type*</label><br>
-                                <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="acquisition_area_extend_type" value="m2"
-                                        checked="" class="custom-control-input"><span
+
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input"
+                                        name="acquisition_area_extend_type" value="m2" checked><span
                                         class="custom-control-label">M2</span>
                                 </label>
-                                <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="acquisition_area_extend_type" value="ha"
-                                        class="custom-control-input"><span class="custom-control-label">HA</span>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input"
+                                        name="acquisition_area_extend_type" value="ha"><span
+                                        class="custom-control-label">HA</span>
                                 </label>
-                            </div>
+                            </div> --}}
                             <div class="form-group col-md-6">
                                 <label for="acquisition_area_extend" class="col-form-label">Acquisition Area
                                     Extent*</label>
                                 <input id="acquisition_area_extend" type="number" class="form-control"
                                     name="acquisition_area_extend" value="{{ old('acquisition_area_extend') }}" required>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="" class="col-form-label">Parent Property Area Type*</label><br>
-                                <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="parent_area_extend_type" value="m2" checked=""
-                                        class="custom-control-input"><span class="custom-control-label">M2</span>
-                                </label>
-                                <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="parent_area_extend_type" value="ha"
-                                        class="custom-control-input"><span class="custom-control-label">HA</span>
-                                </label>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="parent_property_area" class="col-form-label">Parent Property Area*</label>
@@ -721,13 +717,108 @@
                         </div>
 
                         <div class="row">
+                            {{-- <div class="form-group col-md-6">
+                                <label for="" class="col-form-label">Parent Property Area Type*</label><br>
+
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" name="parent_area_extend_type"
+                                        value="m2" checked><span class="custom-control-label">M2</span>
+                                </label>
+                                <label class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" name="parent_area_extend_type"
+                                        value="ha"><span class="custom-control-label">HA</span>
+                                </label>
+                            </div> --}}
+
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="form-group col-md-6">
-                                <input class="form-control" type="file" id="" name="pdf_file">
+                                <label for="acquision_pdf" class="col-form-label">Acquisition Plan</label>
+                                <input class="form-control" type="file" id="acquision_pdf" name="acquision_pdf">
                             </div>
+                            <div class="form-group col-md-6">
+                                <label for="title_pdf" class="col-form-label">Title Deed</label>
+                                <input class="form-control" type="file" id="title_pdf" name="title_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="sg_pdf" class="col-form-label">SG Diagram</label>
+                                <input class="form-control" type="file" id="sg_pdf" name="sg_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="agreement_pdf" class="col-form-label">Agreement</label>
+                                <input class="form-control" type="file" id="agreement_pdf" name="agreement_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="contact_pdf" class="col-form-label">Contact Details</label>
+                                <input class="form-control" type="file" id="contact_pdf" name="contact_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cancellation_pdf" class="col-form-label">Cancellation document</label>
+                                <input class="form-control" type="file" id="cancellation_pdf"
+                                    name="cancellation_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="beacon_pdf" class="col-form-label">Beacon Certificate</label>
+                                <input class="form-control" type="file" id="beacon_pdf" name="beacon_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="signed_agreement_pdf" class="col-form-label">Signed Agreement</label>
+                                <input class="form-control" type="file" id="signed_agreement_pdf"
+                                    name="signed_agreement_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="owner_pdf" class="col-form-label">Owners Particulars</label>
+                                <input class="form-control" type="file" id="owner_pdf" name="owner_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="banking_pdf" class="col-form-label">Banking details</label>
+                                <input class="form-control" type="file" id="banking_pdf" name="banking_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="resolution_pdf" class="col-form-label">Resolution</label>
+                                <input class="form-control" type="file" id="resolution_pdf" name="resolution_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="letter_pdf" class="col-form-label">Letter of entitlement</label>
+                                <input class="form-control" type="file" id="letter_pdf" name="letter_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="id_pdf" class="col-form-label">ID</label>
+                                <input class="form-control" type="file" id="id_pdf" name="id_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="vat_pdf" class="col-form-label">VAT Certificate</label>
+                                <input class="form-control" type="file" id="vat_pdf" name="vat_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="final_offer_pdf" class="col-form-label">Final Offer</label>
+                                <input class="form-control" type="file" id="final_offer_pdf" name="final_offer_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="failed_pdf" class="col-form-label">Failed Negotiation Report</label>
+                                <input class="form-control" type="file" id="failed_pdf" name="failed_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="valuation_certificate_pdf" class="col-form-label">Valuation
+                                    Certificate</label>
+                                <input class="form-control" type="file" id="valuation_certificate_pdf"
+                                    name="valuation_certificate_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="valuation_report_pdf" class="col-form-label">Valuation Report</label>
+                                <input class="form-control" type="file" id="valuation_report_pdf"
+                                    name="valuation_report_pdf">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="memo_pdf" class="col-form-label">Memo Pack</label>
+                                <input class="form-control" type="file" id="memo_pdf" name="memo_pdf">
+                            </div>
+
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary mt-3">Add Entry</button>
+                        <button type="submit" class="btn btn-primary mt-3" id="add_entry_btn">Add Entry</button>
                     </form>
                 </div>
             </div>
@@ -738,6 +829,21 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            // ------------ Case File No input mask ------------
+            IMask(
+                document.getElementById('case_file_no'), {
+                    mask: 'N00/0/0/000/0000',
+                    lazy: false,
+                    definitions: {
+                        '0': {
+                            mask: IMask.MaskedRange,
+                            from: 0,
+                            to: 9,
+                            placeholderChar: '0',
+                        }
+                    }
+                }
+            );
             // -------- for diagram status load inputs --------------
             $('body').on('change', '#diagram_status', function(e) {
                 e.preventDefault();
@@ -749,6 +855,24 @@
                     $('#status_draft').css('display', '');
                     $('#status_approved').css('display', 'none');
                 }
+            });
+
+            $(document).ready(function() {
+                $('input[name="acquisition_area_extend_type"]').on('change', function() {
+                    if ($(this).is(':checked')) {
+                        $('input[name="acquisition_area_extend_type"]').not(this).prop('checked',
+                            false);
+                    }
+                });
+            });
+
+            $(document).ready(function() {
+                $('input[name="parent_area_extend_type"]').on('change', function() {
+                    if ($(this).is(':checked')) {
+                        $('input[name="parent_area_extend_type"]').not(this).prop('checked',
+                            false);
+                    }
+                });
             });
 
 
@@ -864,7 +988,7 @@
                                     Name</label>
                                 <input id="agricultural_holding_name" type="text" class="form-control"
                                     name="agricultural_holding_name" value="{{ old('agricultural_holding_name') }}"
-                                    required>
+                                    >
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="agricultural_holding_number" class="col-form-label">Agricultural Holding
@@ -948,34 +1072,35 @@
 
 
 
-            function convertToHa(value, type) {
-                if (type === 'm2') {
-                    return value / 10000;
-                }
-                return value;
-            }
 
-            function checkArea() {
-                var acquisitionType = $('input[name="acquisition_area_extend_type"]:checked').val();
-                var acquisitionValue = parseFloat($('#acquisition_area_extend').val());
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function validatePlanNumber() {
+                var plan = $("#acquisition_plan").val();
+                var planNumber = $("#acquisition_plan_number").val();
 
-                var parentType = $('input[name="parent_area_extend_type"]:checked').val();
-                var parentValue = parseFloat($('#parent_property_area').val());
+                var planPrefix = plan.split('-')[0] + '-';
 
-                var acquisitionAreaInHa = convertToHa(acquisitionValue, acquisitionType);
-                var parentAreaInHa = convertToHa(parentValue, parentType);
-
-                if (acquisitionAreaInHa > parentAreaInHa) {
-                    $('#parent_property_area').css('border','1px solid red');
-                    toastr.error('The acquisition area cannot be larger than the parent property area.');
+                if (planPrefix && planNumber && !planNumber.startsWith(planPrefix)) {
+                    toastr.error("The acquisition plan number must start with " + planPrefix);
+                    $('#acquisition_plan_number').addClass('border-red');
+                    $('#add_entry_btn').attr('disabled', true);
                 }else{
-                    $('#parent_property_area').css('border','');
+                    $('#add_entry_btn').attr('disabled', false);
+                    $('#acquisition_plan_number').removeClass('border-red');
+
                 }
+
+
             }
-
-            $('input[name="acquisition_area_extend_type"], #acquisition_area_extend').on('change ', function() { checkArea();  });
-
-            $('input[name="parent_area_extend_type"], #parent_property_area').on('change ', function() {  checkArea(); });
+            $("#acquisition_plan_number").blur(function() {
+                validatePlanNumber();
+            });
+            $("#acquisition_plan").change(function() {
+                $("#acquisition_plan_number").blur();
+            });
         });
     </script>
 @endsection

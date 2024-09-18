@@ -62,7 +62,9 @@ Route::group(['prefix' => 'user', 'middleware' => ['user_auth']], function () {
     Route::post('entries/store',        [UserEntryController::class,'store']);
     Route::get('entry/details/{id}',    [UserEntryController::class,'show']);
     Route::get('entry/pdfs/{id}',       [UserEntryController::class,'pdfs']);
+    Route::post('entry/pdf/update',     [UserEntryController::class,'updatePdf']);
     Route::get('entry/edit/{id}',       [UserEntryController::class,'edit']);
     Route::post('entry/update',         [UserEntryController::class,'update']);
     Route::get('entry/delete/{id}',     [UserEntryController::class,'delete']);
+    Route::get('entries/export',        [UserEntryController::class,'export']);
 });

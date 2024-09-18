@@ -8,6 +8,7 @@ use App\Models\Entry;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Helpers\FileHelper;
+use App\Models\PdfFile;
 
 class AdminEntryController extends Controller
 {
@@ -24,7 +25,6 @@ class AdminEntryController extends Controller
             'project_phase',
             'proceed',
             'case_file_no',
-            'diagram_no',
             'diagram_status'
         ])->paginate(10);
 
@@ -55,20 +55,113 @@ class AdminEntryController extends Controller
      */
     public function store(Request $request)
     {
-
-        $data = $request->all();
-        if ($request->pdf_file) {
-            $file = FileHelper::save($request->pdf_file, '/acquisition_plans');
-            $data['upload_acquisition_plan'] = $file;
-        }
-        if ($request->acquisition_area_extend_type == 'm2') {
-            $data['acquisition_area_extend'] = $request->acquisition_area_extend / 10000;
-        }
-        if ($request->parent_area_extend_type == 'm2') {
-            $data['parent_property_area']  = $request->parent_property_area / 10000;
+        if ($request->parent_property_area < $request->acquisition_area_extend) {
+            return redirect()->back()->with('error', 'Acquisition area extend must smaller than Parent Property area');
         }
         try {
-            Entry::create($data);
+            $data = $request->all();
+            $entry = [];
+            $entry = Entry::create($data);
+
+            $pdfs['entry_id'] = $entry->id;
+
+            if ($request->acquision_pdf) {
+                $file = FileHelper::save($request->acquision_pdf, '/acquisition_plans');
+                $pdfs['acquisition_plan'] = $file;
+            }
+
+            if ($request->title_pdf) {
+                $file = FileHelper::save($request->title_pdf, '/title_deeds');
+                $pdfs['title_deed'] = $file;
+            }
+
+            if ($request->sg_pdf) {
+                $file = FileHelper::save($request->sg_pdf, '/sg_diagram');
+                $pdfs['sg_diagram'] = $file;
+            }
+
+            if ($request->agreement_pdf) {
+                $file = FileHelper::save($request->agreement_pdf, '/agreement');
+                $pdfs['agreement'] = $file;
+            }
+
+            if ($request->contact_pdf) {
+                $file = FileHelper::save($request->contact_pdf, '/contact_details');
+                $pdfs['contact_details'] = $file;
+            }
+
+            if ($request->cancellation_pdf) {
+                $file = FileHelper::save($request->cancellation_pdf, '/cancellation_document');
+                $pdfs['cancellation_document'] = $file;
+            }
+
+            if ($request->beacon_pdf) {
+                $file = FileHelper::save($request->beacon_pdf, '/beacon_certificate');
+                $pdfs['beacon_certificate'] = $file;
+            }
+
+            if ($request->signed_agreement_pdf) {
+                $file = FileHelper::save($request->signed_agreement_pdf, '/signed_agreement_pdf');
+                $pdfs['signed_agreement_pdf'] = $file;
+            }
+
+            if ($request->owner_pdf) {
+                $file = FileHelper::save($request->owner_pdf, '/owners_particulars');
+                $pdfs['owners_particulars'] = $file;
+            }
+
+            if ($request->banking_pdf) {
+                $file = FileHelper::save($request->banking_pdf, '/banking_details');
+                $pdfs['banking_details'] = $file;
+            }
+
+            if ($request->resolution_pdf) {
+                $file = FileHelper::save($request->resolution_pdf, '/resolution');
+                $pdfs['resolution'] = $file;
+            }
+
+            if ($request->letter_pdf) {
+                $file = FileHelper::save($request->letter_pdf, '/letter_of_entitlement');
+                $pdfs['letter_of_entitlement'] = $file;
+            }
+
+            if ($request->id_pdf) {
+                $file = FileHelper::save($request->id_pdf, '/id_document');
+                $pdfs['id_document'] = $file;
+            }
+
+            if ($request->vat_pdf) {
+                $file = FileHelper::save($request->vat_pdf, '/vat_certificate');
+                $pdfs['vat_certificate'] = $file;
+            }
+
+            if ($request->final_offer_pdf) {
+                $file = FileHelper::save($request->final_offer_pdf, '/final_offer');
+                $pdfs['final_offer'] = $file;
+            }
+
+            if ($request->failed_pdf) {
+                $file = FileHelper::save($request->failed_pdf, '/failed_negotiation_report');
+                $pdfs['failed_negotiation_report'] = $file;
+            }
+
+            if ($request->valuation_certificate_pdf) {
+                $file = FileHelper::save($request->valuation_certificate_pdf, '/valuation_certificate');
+                $pdfs['valuation_certificate'] = $file;
+            }
+
+            if ($request->valuation_report_pdf) {
+                $file = FileHelper::save($request->valuation_report_pdf, '/valuation_report');
+                $pdfs['valuation_report'] = $file;
+            }
+
+            if ($request->memo_pdf) {
+                $file = FileHelper::save($request->memo_pdf, '/memo_pack');
+                $pdfs['memo_pack'] = $file;
+            }
+
+            PdfFile::create($pdfs);
+
             return redirect()->back()->with('success', 'Entry Added Successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -110,10 +203,11 @@ class AdminEntryController extends Controller
      */
     public function update(Request $request)
     {
+
         try {
             $entry = Entry::find($request->id);
 
-         $entry->update($request->all());
+            $entry->update($request->all());
             return redirect('admin/entries/index')->with('success', 'Entry updated successfully');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -133,7 +227,9 @@ class AdminEntryController extends Controller
     public function pdfs($id)
     {
         $entry = Entry::find($id);
+        $pdfs = $entry->pdfs->toArray();
         $data = [
+            'pdfs' => $pdfs,
             'entry' => $entry,
             'title' => 'Entry PDFs',
             'active' => 'Entries',
@@ -144,9 +240,10 @@ class AdminEntryController extends Controller
 
     public function updatePdf(Request $request)
     {
-        $entry = Entry::find($request->id);
-        $file = FileHelper::save($request->upload_acquisition_plan, '/acquisition_plans');
-        $entry->update(['upload_acquisition_plan' => $file]);
+
+        $pdfFile = PdfFile::find($request->id);
+        $file = FileHelper::save($request->acquisition_plan, '/acquisition_plans');
+        $pdfFile->update([$request->attribute => $file]);
         return redirect()->back()->with('success', 'Acquisition Plan updated!');
     }
 
