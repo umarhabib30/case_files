@@ -8,7 +8,9 @@ use App\Models\Entry;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Helpers\FileHelper;
+use App\Models\Pdf;
 use App\Models\PdfFile;
+use App\Models\PdfType;
 
 class AdminEntryController extends Controller
 {
@@ -62,8 +64,6 @@ class AdminEntryController extends Controller
             $data = $request->all();
             $entry = [];
             $entry = Entry::create($data);
-
-            $pdfs['entry_id'] = $entry->id;
 
             if ($request->acquision_pdf) {
                 $file = FileHelper::save($request->acquision_pdf, '/acquisition_plans');
@@ -160,7 +160,21 @@ class AdminEntryController extends Controller
                 $pdfs['memo_pack'] = $file;
             }
 
-            PdfFile::create($pdfs);
+            $types = PdfType::all();
+
+            foreach ($pdfs as $key =>  $pdf) {
+                foreach ($types as $type) {
+                    if ($key == $type->short) {
+                        $type_id = $type->id;
+                        break;
+                    }
+                }
+                Pdf::create([
+                    'entry_id' => $entry->id,
+                    'pdf_type_id' => $type_id,
+                    'pdf' => $pdf
+                ]);
+            }
 
             return redirect()->back()->with('success', 'Entry Added Successfully');
         } catch (\Exception $e) {
@@ -227,9 +241,11 @@ class AdminEntryController extends Controller
     public function pdfs($id)
     {
         $entry = Entry::find($id);
-        $pdfs = $entry->pdfs->toArray();
+        $pdfs = Pdf::where('entry_id',$entry->id)->get();
+        $types = PdfType::all();
         $data = [
             'pdfs' => $pdfs,
+            'types'=> $types,
             'entry' => $entry,
             'title' => 'Entry PDFs',
             'active' => 'Entries',
@@ -240,11 +256,13 @@ class AdminEntryController extends Controller
 
     public function updatePdf(Request $request)
     {
-
-        $pdfFile = PdfFile::find($request->id);
-        $file = FileHelper::save($request->acquisition_plan, '/acquisition_plans');
-        $pdfFile->update([$request->attribute => $file]);
-        return redirect()->back()->with('success', 'Acquisition Plan updated!');
+        $file = FileHelper::save($request->file, '/'.$request->type_name);
+        Pdf::create([
+            'entry_id'=> $request->entry_id,
+            'pdf_type_id' => $request->pdf_type_id,
+            'pdf'=> $file
+        ]);
+        return redirect()->back()->with('success', $request->type_name.' uploaded!');
     }
 
     public function export()
